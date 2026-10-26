@@ -11,7 +11,7 @@ class Note(Base):
     __tablename__ = "notes"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    title = Column(String(100),  nullable=False)
+    title = Column(String(100), nullable=False)
     content = Column(Text, nullable=False)
     category = Column(String(50), nullable=True)
     pinned = Column(Boolean, nullable=False, default=False)

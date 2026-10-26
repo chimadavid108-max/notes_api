@@ -12,7 +12,9 @@ def get_note(db: Session, note_id: int) -> Note:
     return note
 
 
-def ensure_title_available(db: Session, title: str, exclude_id: int | None = None) -> None:
+def ensure_title_available(
+    db: Session, title: str, exclude_id: int | None = None
+) -> None:
     query = db.query(Note).filter(func.lower(Note.title) == title.lower())
     if exclude_id is not None:
         query = query.filter(Note.id != exclude_id)
@@ -29,12 +31,20 @@ def create_note(db: Session, data: NoteCreate) -> Note:
     return note
 
 
-def list_notes(db: Session, q: str | None = None, category: str | None = None,
-               pinned: bool | None = None, limit: int = 10, offset: int = 0) -> list[Note]:
+def list_notes(
+    db: Session,
+    q: str | None = None,
+    category: str | None = None,
+    pinned: bool | None = None,
+    limit: int = 10,
+    offset: int = 0,
+) -> list[Note]:
     query = db.query(Note)
     if q is not None:
         pattern = f"%{q}%"
-        query = query.filter(or_(Note.title.ilike(pattern), Note.content.ilike(pattern)))
+        query = query.filter(
+            or_(Note.title.ilike(pattern), Note.content.ilike(pattern))
+        )
     if category is not None:
         query = query.filter(Note.category == category)
     if pinned is not None:
